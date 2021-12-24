@@ -17,7 +17,7 @@ public class LoggingAspect {
 
     @AfterReturning(pointcut = "execution(* com.example.apptest.controller.GreetingController.*(..))", returning = "result")
     void logIncomeOutcomeParams(JoinPoint joinPoint, Object result) {
-        logger.info("Вызван метод: {}, параметры: {}", joinPoint.getSignature().getName(),
-                joinPoint.getArgs());
+        logger.info("Вызван метод: {}, входящие параметры: {}, исходящие параметры: {}", joinPoint.getSignature().getName(),
+                joinPoint.getArgs(), result.toString());
     }
 }
