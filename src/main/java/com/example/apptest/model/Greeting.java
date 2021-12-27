@@ -1,9 +1,17 @@
 package com.example.apptest.model;
 
+import javax.persistence.*;
+
+@Entity
 public class Greeting {
 
-    private final long id;
-    private final String content;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String content;
+
+    public Greeting() {
+    }
 
     public Greeting(long id, String content) {
         this.id = id;
@@ -16,6 +24,14 @@ public class Greeting {
 
     public String getContent() {
         return content;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override

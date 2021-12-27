@@ -1,42 +1,56 @@
 package com.example.apptest.controller;
 
 import com.example.apptest.model.Greeting;
+import com.example.apptest.service.GreetingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class GreetingController {
 
-    private static final String template = "Hello, %s";
-    private static final Logger logger = LoggerFactory.getLogger(GreetingController.class);
-    private final AtomicLong counter = new AtomicLong();
+    private GreetingService greetingService;
 
+    @Autowired
+    public void setGreetingService(GreetingService greetingService) {
+        this.greetingService = greetingService;
+    }
 
     @GetMapping("/greeting")
-    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Greeting(counter.incrementAndGet(), String.format(template, name));
+    public Iterable<Greeting> retrieveAllGreetings() {
+        return greetingService.findAllGreetings();
+    }
+
+    @GetMapping("/greeting/{id}")
+    public ResponseEntity<Greeting> retrieveGreetingById(@PathVariable long id) {
+        Optional<Greeting> greetingOptional = greetingService.findGreetingById(id);
+        if (greetingOptional.isPresent()) {
+            return ResponseEntity.ok(greetingOptional.get());
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @PostMapping("/greeting")
     public ResponseEntity<String> postGreeting(@RequestBody Greeting request) {
-        logger.info("Greeting : {} is saved", request);
+        greetingService.saveGreeting(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/greeting/{id}")
     public ResponseEntity<String> replaceGreeting(@RequestBody Greeting greeting, @PathVariable long id) {
-        logger.info("Greeting with id {} is replaced with greeting {}", id, greeting);
+        greetingService.replaceGreeting(greeting, id);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/greeting/{id}")
     public ResponseEntity<String> removeGreeting(@PathVariable long id) {
-        logger.info("Greeting with id {} is deleted", id);
+        greetingService.removeGreetingById(id);
         return ResponseEntity.ok().build();
     }
 }
