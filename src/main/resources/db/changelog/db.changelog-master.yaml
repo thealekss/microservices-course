@@ -1,0 +1,40 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-lesson1.yaml
+  - changeSet:
+      id: 1
+      author: Alex
+      changes:
+        - createTable:
+            tableName: greetings
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: content
+                  type: varchar(50)
+
+  - changeSet:
+      id: 2
+      author: Alex
+      comment: "Create greetings"
+      changes:
+        - insert:
+            tableName: greetings
+            columns:
+              - column:
+                  name: content
+                  value: "Hello, Alex"
+        - insert:
+            tableName: greetings
+            columns:
+              - column:
+                  name: content
+                  value: "Hello, Kate"
+      rollback:
+        - delete:
+            tableName: greetings
+            where: content in ('Hello, Alex', 'Hello, Kate')
