@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,7 @@ public class GreetingService {
         return greetingRepository.findById(id);
     }
 
+    @Transactional
     public void replaceGreeting(Greeting greeting, long id) {
         greeting.setId(id);
         greetingRepository.save(greeting);
