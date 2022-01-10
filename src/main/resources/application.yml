@@ -1,0 +1,12 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+  cloud:
+    stream:
+      binders:
+        binderName:
+          type: kafka
+      bindings:
+        #Подписка на широковещательное сообщение (сообщение получают все подписчики)
+        customChannel:
+          destination: t_greetings
