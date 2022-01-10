@@ -3,6 +3,8 @@ package com.example.apptest.service;
 import com.example.apptest.controller.GreetingController;
 import com.example.apptest.model.Greeting;
 import com.example.apptest.repository.GreetingRepository;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +16,19 @@ import java.util.Optional;
 @Service
 public class GreetingService {
 
-    private GreetingRepository greetingRepository;
     private static final Logger logger = LoggerFactory.getLogger(GreetingController.class);
+    private GreetingRepository greetingRepository;
 
     @Autowired
-    public void setGreetingRepository(GreetingRepository greetingRepository) {
+    public GreetingService(GreetingRepository greetingRepository) {
         this.greetingRepository = greetingRepository;
     }
 
-    public void saveGreeting(Greeting greeting) {
-        greetingRepository.save(greeting);
+
+    public Greeting saveGreeting(Greeting greeting) {
+        Greeting savedGreeting = greetingRepository.save(greeting);
         logger.info("Greeting : {} is saved", greeting.toString());
+        return savedGreeting;
     }
 
     public Iterable<Greeting> findAllGreetings() {
@@ -35,14 +39,15 @@ public class GreetingService {
         return greetingRepository.findById(id);
     }
 
-    public void replaceGreeting(Greeting greeting, long id) {
+    public Greeting replaceGreeting(Greeting greeting, long id) {
         greeting.setId(id);
-        greetingRepository.save(greeting);
+        Greeting newGreeting = greetingRepository.save(greeting);
+        return newGreeting;
     }
 
-    public void removeGreetingById(long id) {
-        greetingRepository.deleteById(id);
+    public Greeting removeGreetingById(long id) {
+        Greeting removedGreeting = greetingRepository.deleteGreetingById(id);
         logger.info("Greeting with id {} is deleted", id);
+        return removedGreeting;
     }
-
 }

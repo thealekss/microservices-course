@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GreetingRepository extends CrudRepository<Greeting, Long> {
-
+    Greeting deleteGreetingById(Long id);
 }

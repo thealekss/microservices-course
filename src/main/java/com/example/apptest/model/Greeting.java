@@ -1,9 +1,12 @@
 package com.example.apptest.model;
 
+import lombok.Builder;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "greetings")
+@Builder
 public class Greeting {
 
     @Id
