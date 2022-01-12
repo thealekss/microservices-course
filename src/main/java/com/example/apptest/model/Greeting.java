@@ -1,12 +1,14 @@
 package com.example.apptest.model;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "greetings")
 @Builder
+@EqualsAndHashCode
 public class Greeting {
 
     @Id

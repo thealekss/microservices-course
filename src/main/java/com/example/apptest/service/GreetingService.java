@@ -13,13 +13,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class GreetingService {
 
     private static final Logger logger = LoggerFactory.getLogger(GreetingController.class);
     private GreetingRepository greetingRepository;
 
-    @Autowired
+
     public GreetingService(GreetingRepository greetingRepository) {
         this.greetingRepository = greetingRepository;
     }
@@ -31,7 +32,7 @@ public class GreetingService {
         return savedGreeting;
     }
 
-    public Iterable<Greeting> findAllGreetings() {
+    public List<Greeting> findAllGreetings() {
         return greetingRepository.findAll();
     }
 
